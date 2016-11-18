@@ -55,6 +55,11 @@ public class UserController {
     public ModelMap login(String userName,String password) throws Exception{
     	return aservice.login(userName, password);
     }
+    /**
+     * 获取好友列表
+     * @param userId
+     * @return
+     */
     @RequestMapping(value="/friends",method=RequestMethod.GET) 
     @ResponseBody
     public List<FriendsListVo> userFriends(String userId) {
