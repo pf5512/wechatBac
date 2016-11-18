@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mybatiseproject.dao.UserDao">
+<!-- 定义java Bean的属性与数据库的列之间的映射 -->
+ <resultMap type="vo.FriendsListVo" id="friendsMap">
+  <result column="friendId" property="friendId" />
+  <result column="state" property="state" />
+ </resultMap>
+	<select id="login" parameterType="string" resultType="vo.LoginInfo">
+		SELECT * FROM base_user WHERE userName=#{userName}
+	</select>
+	<select id="userFriends" parameterType="string" resultMap="friendsMap">
+		SELECT friendId,state FROM user_friend WHERE userId=#{userId}
+	</select>
+</mapper>
