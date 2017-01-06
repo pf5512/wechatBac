@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx-4.0.xsd 
+	http://www.springframework.org/schema/jee 
+	http://www.springframework.org/schema/jee/spring-jee-4.0.xsd 
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+
+	<!-- 生产环境 -->
+	<beans profile="production">
+		<bean id="configProperties"
+			class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+			<property name="locations">
+				<list>
+					<value>classpath*:/urlConfig_production.properties</value>
+				</list>
+			</property>
+		</bean>
+		<bean id="propertyConfigurer"
+			class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+			<property name="properties" ref="configProperties" />
+		</bean>
+	</beans>
+	<!-- 本地开发环境 -->
+	<beans profile="development">
+		<bean id="configProperties"
+			class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+			<property name="locations">
+				<list>
+					<value>classpath*:/urlConfig_development.properties</value>
+				</list>
+			</property>
+		</bean>
+		<bean id="propertyConfigurer"
+			class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+			<property name="properties" ref="configProperties" />
+		</bean>
+	</beans>
+	<!-- <beans>
+		公共存放地址
+		<bean id="baseConfig"
+			class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+			<property name="locations">
+				<list>
+					<value>classpath*:/baseConfig.properties</value>
+				</list>
+			</property>
+		</bean>
+		<bean id="propertyConfigurer"
+			class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+			<property name="properties" ref="baseConfig" />
+		</bean>
+	</beans>
+	<beans>
+		健康基本标准配置
+		<bean id="medicalConfig"
+			class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+			<property name="locations">
+				<list>
+					<value>classpath*:/medicalConfig.properties</value>
+				</list>
+			</property>
+		</bean>
+		<bean id="propertyConfigurer"
+			class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+			<property name="properties" ref="medicalConfig" />
+		</bean>
+	</beans>
+		<beans>
+		参数配置
+		<bean id="paramConfig"
+			class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+			<property name="locations">
+				<list>
+					<value>classpath*:/parameterConfig.properties</value>
+				</list>
+			</property>
+		</bean>
+		<bean id="propertyConfigurer"
+			class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+			<property name="properties" ref="paramConfig" />
+		</bean>
+	</beans> -->
+</beans>
