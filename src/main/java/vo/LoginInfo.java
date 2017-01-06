@@ -9,7 +9,8 @@ private String userName;
 private String password;
 private String nickName;
 private String sex;
-private String openId;
+private String phone;
+private String portrait;
 public String getId() {
 	return id;
 }
@@ -40,11 +41,17 @@ public String getSex() {
 public void setSex(String sex) {
 	this.sex = sex;
 }
-public String getOpenId() {
-	return openId;
+public String getPhone() {
+	return phone;
 }
-public void setOpenId(String openId) {
-	this.openId = openId;
+public void setPhone(String phone) {
+	this.phone = phone;
+}
+public String getPortrait() {
+	return portrait;
+}
+public void setPortrait(String portrait) {
+	this.portrait = portrait;
 }
 
 }

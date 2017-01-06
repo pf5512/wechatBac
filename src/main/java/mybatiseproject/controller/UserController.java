@@ -17,6 +17,7 @@ import io.rong.RongCloud;
 import io.rong.models.TokenReslut;
 import mybatiseproject.service.UserService;
 import vo.FriendsListVo;
+import vo.UserInfo;
 
 @Controller  
 @RequestMapping(value="/user")  
@@ -32,7 +33,7 @@ public class UserController {
 //    }  
     
     @RequestMapping(value="/token",method=RequestMethod.GET) 
-    @ResponseBody
+    @ResponseBody  
     public ModelMap getToken() throws Exception{
     	String appKey = "k51hidwq1ib0b";//替换成您的appkey
     	String appSecret = "0DBRzehWvzMV";//替换成匹配上面key的secret
@@ -56,6 +57,45 @@ public class UserController {
     	return aservice.login(userName, password);
     }
     /**
+     * 注册
+     * @param userName
+     * @param phone
+     * @param password
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value="/regist",method=RequestMethod.POST) 
+    @ResponseBody
+    public ModelMap regist(String userName,String phone,String password) {
+    	ModelMap map=new ModelMap();
+    	map.put("result", aservice.regist(userName, phone, password));
+    	return map;
+    }
+   /**
+    * 添加好友
+    * @param friendId
+    * @return
+    */
+    @RequestMapping(value="/addFriend",method=RequestMethod.POST) 
+    @ResponseBody
+    public ModelMap addFriend(String userId,String friendId) {
+    	ModelMap map=new ModelMap();
+    	map.put("result", aservice.addFriend(userId,friendId));
+    	return map;
+    }
+    /**
+     * 同意好友申请
+     * @param friendId
+     * @return
+     */
+    @RequestMapping(value="/agreeApply",method=RequestMethod.PUT) 
+    @ResponseBody
+    public ModelMap agreeFriendsApply(String userId,String friendId) {
+    	ModelMap map=new ModelMap();
+    	map.put("result", aservice.agreeFriendsApply(userId,friendId));
+    	return map;
+    }
+    /**
      * 获取好友列表
      * @param userId
      * @return
@@ -64,5 +104,25 @@ public class UserController {
     @ResponseBody
     public List<FriendsListVo> userFriends(String userId) {
     	return aservice.userFriends(userId);
+    }
+    /**
+     * 获取好友申请列表
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value="/applyFriends",method=RequestMethod.GET) 
+    @ResponseBody
+    public List<FriendsListVo> getApplyFriends(String userId) {
+    	return aservice.getApplyFriends(userId);
+    }
+    /**
+     * 根据条件查找用户
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value="/searchFriends",method=RequestMethod.GET) 
+    @ResponseBody
+    public List<UserInfo> searchFriends(String userId,String searchKey) {
+    	return aservice.searchFriends(userId,searchKey);
     }
 }  

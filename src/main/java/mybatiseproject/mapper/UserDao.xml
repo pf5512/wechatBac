@@ -2,15 +2,61 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mybatiseproject.dao.UserDao">
-<!-- 定义java Bean的属性与数据库的列之间的映射 -->
- <resultMap type="vo.FriendsListVo" id="friendsMap">
-  <result column="friendId" property="friendId" />
-  <result column="state" property="state" />
- </resultMap>
+	<!-- 定义java Bean的属性与数据库的列之间的映射 -->
+	<resultMap type="vo.FriendsListVo" id="friendsMap">
+		<result column="userId" property="userId" />
+		<result column="userName" property="userName" />
+		<result column="nickName" property="nickName" />
+		<result column="sex" property="sex" />
+		<result column="phone" property="phone" />
+		<result column="portrait" property="portrait" />
+		<result column="state" property="state" />
+	</resultMap>
+	<resultMap type="vo.UserInfo" id="userMap">
+		<result column="id" property="id" />
+		<result column="userName" property="userName" />
+		<result column="nickName" property="nickName" />
+		<result column="sex" property="sex" />
+		<result column="phone" property="phone" />
+		<result column="portrait" property="portrait" />
+	</resultMap>
 	<select id="login" parameterType="string" resultType="vo.LoginInfo">
-		SELECT * FROM base_user WHERE userName=#{userName}
+		SELECT *
+		FROM base_user WHERE userName=#{userName}
 	</select>
 	<select id="userFriends" parameterType="string" resultMap="friendsMap">
-		SELECT friendId,state FROM user_friend WHERE userId=#{userId}
+		SELECT bu.id as
+		userId,bu.userName,bu.nickName,bu.sex,bu.phone,bu.portrait,uf.state
+		FROM
+		base_user bu LEFT JOIN user_friend uf ON bu.id=uf.friendId WHERE
+		uf.userId=#{userId}
+	</select>
+	<insert id="regist" parameterType="vo.LoginInfo">
+		insert into
+		base_user(id,userName,password,nickName,sex,phone)
+		values(#{id},#{userName},#{password},#{nickName},#{sex},#{phone})
+	</insert>
+	<insert id="addFriend" parameterType="string">
+		insert into
+		user_friend(userId,friendId,state)
+		values(#{0},#{1},#{2})
+	</insert>
+	<update id="changeApplyState" parameterType="string">
+		update user_friend
+		SET
+		state=1 where friendId=#{0} and userId=#{1}
+	</update>
+	<select id="getApplyFriends" parameterType="string" resultMap="friendsMap">
+		SELECT bu.id as
+		userId,bu.userName,bu.nickName,bu.sex,bu.phone,bu.portrait,uf.state
+		FROM
+		base_user bu LEFT JOIN user_friend uf ON bu.id=uf.userId WHERE
+		uf.friendId=#{userId}
+	</select>
+	<select id="searchFriends" parameterType="string" resultMap="userMap">
+		SELECT id,userName,nickName,sex,phone,portrait FROM base_user WHERE phone=#{searchKey}
+	</select>
+	<select id="isfriendsExit" parameterType="string" resultMap="userMap">
+		SELECT id,userName,nickName,sex,phone,portrait FROM base_user bu LEFT JOIN user_friend uf ON bu.id=uf.friendId WHERE uf.userId=#{0} AND bu.phone=#{1}
 	</select>
 </mapper>
