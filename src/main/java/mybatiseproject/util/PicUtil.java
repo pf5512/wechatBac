@@ -13,14 +13,28 @@ public class PicUtil {
 	@Autowired
 	@Qualifier("configProperties")
 	private Properties properties;
-	//补充图片所属包文件名
+
+	// 补充图片所属包文件名
 	public String getPortraitImages(String fileName) {
 		String bagPath = properties.getProperty(PicBagNameEnum.PORTRAIT_BAGS.getName());
 		return bufferUtil.bufferString(bagPath, "/", fileName);
 	}
-	//补充图片baseURL前缀名
-	public String getImageUrl(String imagePath){
+
+	// 补充图片baseURL前缀名
+	public String getImageUrl(String imagePath) {
 		String basePath = properties.getProperty("pictureUrl");
-		return bufferUtil.bufferString(basePath,imagePath).toString();
+		return bufferUtil.bufferString(basePath, imagePath).toString();
+	}
+
+	// 补充图片所属包文件名
+	public String getTheWholeImageUrl(String fileName, String bagName) {
+		String bagPath = properties.getProperty(bagName);
+		return bufferUtil.bufferString(bagPath, "/", fileName);
+	}
+
+	// 补充图片baseURL前缀名
+	public String getTheBaseUrl(String imagePath) {
+		String basePath = properties.getProperty("pictureUrl");
+		return bufferUtil.bufferString(basePath, imagePath).toString();
 	}
 }

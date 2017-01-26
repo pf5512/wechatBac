@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mybatiseproject.dao.FriendCircleDao">
+	<!-- 定义java Bean的属性与数据库的列之间的映射 -->
+	<resultMap type="vo.CircleListVo" id="circlesMap">
+		<result column="id" property="id" />
+		<result column="userId" property="userId" />
+		<result column="portrait" property="portrait" />
+		<result column="nickName" property="nickName" />
+		<result column="goodCount" property="goodCount" />
+		<result column="releaseTime" property="releaseTime" />
+		<result column="dynamicContent" property="dynamicContent" />
+	</resultMap>
+	<insert id="uploadCircleImgList" parameterType="java.util.List">
+		INSERT INTO circle_image(circleImg,circleId) VALUES
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.circleImg}, #{item.circleId})
+		</foreach>
+	</insert>
+	<insert id="publishCircle" parameterType="vo.CircleVo">
+		INSERT INTO
+		circle(id,userId,dynamicContent,releaseTime,goodCount)
+		VALUES(#{id},#{userId},#{dynamicContent},#{releaseTime},#{goodCount})
+	</insert>
+	<select id="getCircleList" parameterType="string" resultMap="circlesMap">
+		SELECT DISTINCT
+		c.id,bu.id,bu.nickName,bu.portrait,bu.nickName,c.goodCount,c.releaseTime,c.dynamicContent
+		FROM circle c LEFT JOIN base_user bu ON c.userId=bu.id LEFT JOIN
+		user_friend uf ON bu.id=uf.friendId WHERE
+		uf.userId=#{userId} OR
+		bu.id=#{userId}
+	</select>
+	<select id="getCircleImageList" parameterType="string" resultType="String">
+		SELECT circleImg FROM circle_image WHERE circleId=#{circleId}
+	</select>
+</mapper>

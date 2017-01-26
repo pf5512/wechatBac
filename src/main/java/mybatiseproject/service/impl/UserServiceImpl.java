@@ -116,7 +116,11 @@ public class UserServiceImpl implements UserService {
 	 * 查询好友申请列表 
 	 */
 	public List<FriendsListVo> getApplyFriends(String userId){
-		return userDao.getApplyFriends(userId);
+		List<FriendsListVo> friendsList=userDao.getApplyFriends(userId);
+		for(FriendsListVo vo:friendsList){
+			vo.setPortrait(picUtil.getImageUrl(vo.getPortrait()));
+		}
+		return friendsList;
 	}
 	/**
 	 * 根据条件查找用户
